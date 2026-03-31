@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.mergenc.maestro_ci_test.ui.theme.MaestrocitestTheme
 
 @Composable
-fun FirstScreen(
+fun LoginScreen(
     email: String,
     password: String,
     showInvalidEmailDialog: Boolean,
@@ -46,7 +46,7 @@ fun FirstScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Giris")
+        Text(text = "Login")
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -76,7 +76,7 @@ fun FirstScreen(
 @Composable
 fun FirstScreenPreview() {
     MaestrocitestTheme {
-        FirstScreen(
+        LoginScreen(
             email = "test@mail.com",
             password = "123456",
             showInvalidEmailDialog = false,

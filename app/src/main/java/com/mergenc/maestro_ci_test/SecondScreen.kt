@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.mergenc.maestro_ci_test.ui.theme.MaestrocitestTheme
 
 @Composable
-fun SecondScreen(
+fun OnboardingScreen(
     email: String,
     modifier: Modifier = Modifier,
     onBack: () -> Unit
@@ -26,7 +26,7 @@ fun SecondScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Ikinci ekran")
+        Text("Onboarding")
         Text(
             text = "Hos geldin $email",
             modifier = Modifier.padding(top = 8.dp)
@@ -45,9 +45,9 @@ fun SecondScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SecondScreenPreview() {
+fun OnboardingScreenPreview() {
     MaestrocitestTheme {
-        SecondScreen(
+        OnboardingScreen(
             email = "test@mail.com",
             onBack = {}
         )

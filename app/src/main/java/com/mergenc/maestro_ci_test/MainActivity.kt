@@ -35,19 +35,19 @@ class MainActivity : ComponentActivity() {
 fun SimpleFlow(modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var currentScreen by remember { mutableStateOf("first") }
+    var currentScreen by remember { mutableStateOf("login") }
     var showInvalidEmailDialog by remember { mutableStateOf(false) }
 
-    if (currentScreen == "second") {
-        SecondScreen(
+    if (currentScreen == "onboarding") {
+        OnboardingScreen(
             email = email,
             modifier = modifier,
-            onBack = { currentScreen = "first" }
+            onBack = { currentScreen = "login" }
         )
         return
     }
 
-    FirstScreen(
+    LoginScreen(
         email = email,
         password = password,
         showInvalidEmailDialog = showInvalidEmailDialog,
@@ -57,7 +57,7 @@ fun SimpleFlow(modifier: Modifier = Modifier) {
         onDismissDialog = { showInvalidEmailDialog = false },
         onContinue = {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                currentScreen = "second"
+                currentScreen = "onboarding"
             } else {
                 showInvalidEmailDialog = true
             }
