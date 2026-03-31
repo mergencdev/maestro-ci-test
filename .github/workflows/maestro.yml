@@ -30,8 +30,8 @@ concurrency:
 
 env:
   JAVA_VERSION: "17"
-  ANDROID_API_LEVEL: 33
-  ANDROID_TARGET: google_apis
+  ANDROID_API_LEVEL: 31
+  ANDROID_TARGET: default
   ANDROID_ARCH: x86_64
 
 jobs:
@@ -104,14 +104,15 @@ jobs:
           api-level: ${{ env.ANDROID_API_LEVEL }}
           target: ${{ env.ANDROID_TARGET }}
           arch: ${{ env.ANDROID_ARCH }}
-          force-avd-creation: false
+          force-avd-creation: true
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
+          emulator-boot-timeout: 300
           script: |
             set +e
 
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-            adb install app/build/outputs/apk/debug/app-debug.apk
+            echo "Emulator hazır, APK yükleniyor..."
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
 
             export MAESTRO_DRIVER_STARTUP_TIMEOUT=120000
             mkdir -p maestro-output/debug
@@ -134,10 +135,6 @@ jobs:
             echo "========================================="
             echo "  TEST KOŞUMU TAMAMLANDI (exit: $TEST_EXIT)"
             echo "========================================="
-
-            if [[ -f maestro-output/results.xml ]]; then
-              cp maestro-output/results.xml maestro-output/results-backup.xml
-            fi
 
             exit $TEST_EXIT
 
