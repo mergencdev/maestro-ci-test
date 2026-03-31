@@ -1,0 +1,44 @@
+##
+# @file    01-login-basarili.yaml
+# @appId   com.mergenc.maestro_ci_test
+#
+# @tags
+#  - login
+#  - smoke
+#
+# @preconditions
+#  - Uygulama yüklü olmalı.
+#  - Kullanıcı giriş yapmamış olmalı.
+# ─────────────────────────────────────────────────────────────
+# @flow
+# ─────────────────────────────────────────────────────────────
+# 1-Uygulamayı başlatır.
+# 2-Geçerli mail ve şifre ile giriş yapar.
+# 3-Onboarding ekranı açılır.
+# 4-Hoş geldin mesajı görüntülenir.
+#
+# @expected Geçerli bilgilerle giriş yapıldı ve Onboarding
+#           ekranına başarıyla geçildi.
+#
+# @author    Mehmet Emin Ergenç
+# @version   1.0.0
+##
+
+appId: com.mergenc.maestro_ci_test
+
+---
+
+- runFlow:
+    file: reusable/login-flow.yaml
+    env:
+      EMAIL: ${EMAIL}
+      PASSWORD: ${PASSWORD}
+
+- extendedWaitUntil:
+    visible: "Onboarding"
+    timeout: 5000
+
+- assertVisible: "Onboarding"
+- assertVisible:
+    text: "Hos geldin.*"
+    enabled: true

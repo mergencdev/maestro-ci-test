@@ -1,0 +1,55 @@
+##
+# @file    02-onboarding-geri-donus.yaml
+# @appId   com.mergenc.maestro_ci_test
+#
+# @tags
+#  - onboarding
+#  - navigation
+#
+# @preconditions
+#  - Uygulama yüklü olmalı.
+#  - Kullanıcı giriş yapmamış olmalı.
+# ─────────────────────────────────────────────────────────────
+# @flow
+# ─────────────────────────────────────────────────────────────
+# 1-Uygulamayı başlatır.
+# 2-Geçerli mail ve şifre ile giriş yapar.
+# 3-Onboarding ekranı açılır.
+# 4-"Geri don" butonuna tıklar.
+# 5-Login ekranına geri döner.
+#
+# @expected Onboarding ekranından geri dönüldü ve Login
+#           ekranına başarıyla geri dönüldü.
+#
+# @author    Mehmet Emin Ergenç
+# @version   1.0.0
+##
+
+appId: com.mergenc.maestro_ci_test
+
+---
+
+- runFlow:
+    file: reusable/login-flow.yaml
+    env:
+      EMAIL: ${EMAIL}
+      PASSWORD: ${PASSWORD}
+
+- extendedWaitUntil:
+    visible: "Onboarding"
+    timeout: 5000
+
+- assertVisible: "Onboarding"
+- assertVisible:
+    text: "Hos geldin.*"
+    enabled: true
+
+- tapOn: "Geri don"
+
+- extendedWaitUntil:
+    visible: "Login"
+    timeout: 5000
+
+- assertVisible: "Login"
+- assertVisible: "Mail"
+- assertVisible: "Sifre"

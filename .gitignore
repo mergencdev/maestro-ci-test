@@ -14,3 +14,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Maestro test output
+maestro-output/
+.maestro/debug/

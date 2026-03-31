@@ -1,0 +1,26 @@
+##
+# @file    config.yaml
+# @appId   com.mergenc.maestro_ci_test
+#
+# @tags
+#  - config
+#
+# @description
+#  Maestro global konfigürasyon dosyası.
+#  Tüm flow'lar bu ayarları miras alır.
+#
+# @author    Mehmet Emin Ergenç
+# @version   1.0.0
+##
+
+appId: com.mergenc.maestro_ci_test
+
+executionOrder:
+  continueOnFailure: false
+
+onFlowStart:
+  - clearState
+
+tags:
+  exclude:
+    - exc4

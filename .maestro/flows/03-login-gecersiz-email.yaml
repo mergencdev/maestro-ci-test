@@ -1,0 +1,63 @@
+##
+# @file    03-login-gecersiz-email.yaml
+# @appId   com.mergenc.maestro_ci_test
+#
+# @tags
+#  - login
+#  - negative
+#
+# @preconditions
+#  - Uygulama yüklü olmalı.
+#  - Kullanıcı giriş yapmamış olmalı.
+# ─────────────────────────────────────────────────────────────
+# @flow
+# ─────────────────────────────────────────────────────────────
+# 1-Uygulamayı başlatır.
+# 2-Geçersiz bir email adresi girer.
+# 3-"Devam et" butonuna tıklar.
+# 4-Hata dialog'u görüntülenir.
+# 5-"Tamam" butonuna tıklar.
+# 6-Dialog kapanır, Login ekranında kalır.
+#
+# @expected Geçersiz email girildiğinde hata dialog'u gösterildi
+#           ve "Tamam" ile kapatıldı.
+#
+# @author    Mehmet Emin Ergenç
+# @version   1.0.0
+##
+
+appId: com.mergenc.maestro_ci_test
+
+---
+
+- launchApp:
+    clearState: true
+
+- extendedWaitUntil:
+    visible: "Login"
+    timeout: 10000
+
+- tapOn: "Mail"
+- inputText: "gecersiz-email"
+
+- tapOn: "Sifre"
+- inputText: "herhangibirsey"
+
+- hideKeyboard
+
+- tapOn: "Devam et"
+
+- extendedWaitUntil:
+    visible: "Hata"
+    timeout: 5000
+
+- assertVisible: "Hata"
+- assertVisible: "Gecersiz mail adresi."
+
+- tapOn: "Tamam"
+
+- extendedWaitUntil:
+    visible: "Login"
+    timeout: 5000
+
+- assertVisible: "Login"

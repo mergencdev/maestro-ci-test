@@ -1,0 +1,46 @@
+##
+# @file    reusable/login-flow.yaml
+# @appId   com.mergenc.maestro_ci_test
+#
+# @tags
+#  - reusable
+#  - login
+#
+# @preconditions
+#  - Uygulama yüklü olmalı.
+#  - Login ekranı görünür olmalı.
+# ─────────────────────────────────────────────────────────────
+# @flow
+# ─────────────────────────────────────────────────────────────
+# 1-Uygulamayı başlatır.
+# 2-Mail alanına ${EMAIL} yazar.
+# 3-Şifre alanına ${PASSWORD} yazar.
+# 4-"Devam et" butonuna tıklar.
+#
+# @expected Login işlemi tamamlanır ve Onboarding ekranına
+#           geçiş yapılır.
+#
+# @author    Mehmet Emin Ergenç
+# @version   1.0.0
+##
+
+appId: com.mergenc.maestro_ci_test
+
+---
+
+- launchApp:
+    clearState: true
+
+- extendedWaitUntil:
+    visible: "Login"
+    timeout: 10000
+
+- tapOn: "Mail"
+- inputText: ${EMAIL}
+
+- tapOn: "Sifre"
+- inputText: ${PASSWORD}
+
+- hideKeyboard
+
+- tapOn: "Devam et"
