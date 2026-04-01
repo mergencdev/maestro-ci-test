@@ -1,13 +1,20 @@
 image: mingc/android-build-box:latest
 
+# Bitbucket native notifications are managed in Bitbucket settings.
+# Fixed recipient lists cannot be declared in this YAML.
 pipelines:
-  branches:
-    main:
+  pull-requests:
+    "**":
       - step:
           name: Build Debug APK
           caches:
             - gradle
           script:
+            - |
+              if [ "${BITBUCKET_PR_DESTINATION_BRANCH:-}" != "main" ]; then
+                echo "Skipping PR pipeline because destination branch is '${BITBUCKET_PR_DESTINATION_BRANCH:-unknown}'."
+                exit 0
+              fi
             - chmod +x gradlew
             - ./gradlew assembleDebug
           artifacts:
@@ -16,19 +23,24 @@ pipelines:
       - step:
           name: Run Maestro Cloud Tests
           script:
+            - |
+              if [ "${BITBUCKET_PR_DESTINATION_BRANCH:-}" != "main" ]; then
+                echo "Skipping Maestro because destination branch is '${BITBUCKET_PR_DESTINATION_BRANCH:-unknown}'."
+                exit 0
+              fi
             - curl -Ls "https://get.maestro.mobile.dev" | bash
             - export PATH="$PATH:$HOME/.maestro/bin"
             - |
-              maestro cloud \
-                --apiKey $MAESTRO_API_KEY \
-                --app-file app/build/outputs/apk/debug/app-debug.apk \
-                --include-tags all \
-                .maestro/ 2>&1 | tee maestro-output.log
-              RESULT=$?
-              echo "========================================="
-              echo "MAESTRO CONSOLE URL:"
-              grep -oP 'https://[^ ]*maestro[^ ]*' maestro-output.log || true
-              echo "========================================="
-              exit $RESULT
-          after-script:
-            - cat maestro-output.log 2>/dev/null || true
+              bash -o pipefail -c '
+                maestro cloud \
+                  --verbose \
+                  --apiKey "$MAESTRO_API_KEY" \
+                  --app-file app/build/outputs/apk/debug/app-debug.apk \
+                  .maestro/ 2>&1 | tee maestro-output.log
+              '
+              STATUS=$?
+              echo "Maestro Console URL:"
+              grep -Eo 'https://[^[:space:]]+' maestro-output.log | tail -1 || true
+              exit "$STATUS"
+          artifacts:
+            - maestro-output.log
