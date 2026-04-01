@@ -46,7 +46,7 @@ fun LoginScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Login")
+        Text(text = "Giriş Yap")
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
