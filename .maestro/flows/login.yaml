@@ -1,0 +1,16 @@
+appId: com.mergenc.maestro_ci_test
+---
+- launchApp
+
+- assertVisible: "Login"
+
+- tapOn: "Mail"
+- inputText: "test@mail.com"
+
+- tapOn: "Sifre"
+- inputText: "123456"
+
+- tapOn: "Devam et"
+
+- assertVisible: "Onboarding"
+- assertVisible: "Hos geldin test@mail.com"
