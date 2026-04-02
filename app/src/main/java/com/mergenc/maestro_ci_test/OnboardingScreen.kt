@@ -26,7 +26,7 @@ fun OnboardingScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Onboarding")
+        Text("Onboarding Branch Test")
         Text(
             text = "Hos geldin $email",
             modifier = Modifier.padding(top = 8.dp)
